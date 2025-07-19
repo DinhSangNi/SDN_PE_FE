@@ -5,7 +5,7 @@ export const useUpdateContact = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
-      axiosInstance.patch(`/api/contacts/${id}`, data),
+      axiosInstance.patch(`/contacts/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["contacts"],

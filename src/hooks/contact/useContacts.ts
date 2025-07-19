@@ -3,7 +3,7 @@ import { contactService } from "@/services/contact.service";
 
 export function useContacts(filters: {
   search?: string;
-  groupName?: string;
+  groupId?: string;
   sort?: "asc" | "desc";
   page?: number;
   limit?: number;

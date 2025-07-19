@@ -20,6 +20,7 @@ type Props = {
     phone?: string;
     group?: { _id: string; name: string } | string | null;
   };
+  type: "create" | "edit";
 };
 
 // Zod schema
@@ -32,7 +33,12 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-export function ContactForm({ onSubmit, isPending, defaultValues }: Props) {
+export function ContactForm({
+  onSubmit,
+  isPending,
+  defaultValues,
+  type = "create",
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -47,11 +53,12 @@ export function ContactForm({ onSubmit, isPending, defaultValues }: Props) {
       groupName:
         typeof defaultValues?.group === "string"
           ? defaultValues.group
-          : defaultValues?.group?._id || "", // nếu object thì lấy _id
+          : defaultValues?.group?.name || "", // nếu object thì lấy _id
     },
   });
 
   const onValidSubmit = (data: FormData) => {
+    console.log("data: ", data);
     onSubmit({
       ...data,
       phone: data.phone || undefined,
@@ -104,10 +111,16 @@ export function ContactForm({ onSubmit, isPending, defaultValues }: Props) {
 
       <button
         type="submit"
-        className="bg-blue-600 text-white p-2 rounded w-full disabled:opacity-50"
+        className="bg-blue-600 text-white p-2 rounded w-full disabled:opacity-50 cursor-pointer"
         disabled={isPending}
       >
-        {isPending ? "Saving..." : "Create Contact"}
+        {type === "create"
+          ? isPending
+            ? "Creating... "
+            : "Create"
+          : isPending
+          ? "Saving"
+          : "Save"}
       </button>
     </form>
   );

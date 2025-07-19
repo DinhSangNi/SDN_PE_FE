@@ -17,14 +17,14 @@ export default function ContactCard({ contact }: { contact: Contact }) {
       )}
       <div className="flex gap-2">
         <button
-          onClick={() => router.push(`/contacts/${contact._id}/edit`)}
-          className="text-blue-600 underline"
+          onClick={() => router.push(`/contacts/edit/${contact._id}`)}
+          className="text-blue-600 underline cursor-pointer"
         >
           Edit
         </button>
         <button
           onClick={() => deleteContact(contact._id)}
-          className="text-red-600 underline"
+          className="text-red-600 underline cursor-pointer"
           disabled={isPending}
         >
           {isPending ? "Deleting..." : "Delete"}

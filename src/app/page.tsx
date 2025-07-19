@@ -2,11 +2,10 @@
 
 import ContactCard from "@/components/ContactCard";
 import { useContacts } from "@/hooks/contact/useContacts";
-import { Contact } from "@/lib/types";
+import { Contact, Group } from "@/lib/types";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const groups = ["friend", "work", "family"];
+import { useGroups } from "@/hooks/group/useGroups";
 
 export default function HomePage() {
   const [search, setSearch] = useState<string | undefined>(undefined);
@@ -16,9 +15,11 @@ export default function HomePage() {
 
   const { data, isLoading, isError } = useContacts({
     search,
-    groupName: groupFilter,
+    groupId: groupFilter ? groupFilter : undefined,
     sort: sortAsc ? "asc" : "desc",
   });
+
+  const { data: groups } = useGroups();
 
   const contacts = isLoading ? [] : data?.data;
 
@@ -28,7 +29,7 @@ export default function HomePage() {
         <h1 className="text-2xl font-bold">Contact List</h1>
         <button
           onClick={() => router.push("/contacts/create")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer"
         >
           + New Contact
         </button>
@@ -48,9 +49,9 @@ export default function HomePage() {
         onChange={(e) => setGroupFilter(e.target.value)}
       >
         <option value="">All Groups</option>
-        {groups.map((g) => (
-          <option key={g} value={g}>
-            {g}
+        {groups?.map((g: Group) => (
+          <option key={g._id} value={g._id}>
+            {g.name}
           </option>
         ))}
       </select>

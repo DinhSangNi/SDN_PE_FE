@@ -24,10 +24,12 @@ export function GroupSelect({
   const [creating, setCreating] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
 
+  console.log("value: ", value);
+
   const handleCreate = async () => {
     if (!newGroupName.trim()) return;
     const group = await createGroup.mutateAsync(newGroupName.trim());
-    onChange(group._id);
+    onChange(group.name);
     setCreating(false);
     setNewGroupName("");
   };
@@ -50,7 +52,7 @@ export function GroupSelect({
         <SelectContent>
           <SelectItem value="__none__">No Group</SelectItem>
           {groups.map((g) => (
-            <SelectItem key={g._id} value={g._id}>
+            <SelectItem key={g._id} value={g.name}>
               {g.name}
             </SelectItem>
           ))}
