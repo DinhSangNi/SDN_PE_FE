@@ -20,7 +20,7 @@ type Props = {
     phone?: string;
     group?: { _id: string; name: string } | string | null;
   };
-  type: "create" | "edit";
+  type?: "create" | "edit";
 };
 
 // Zod schema
